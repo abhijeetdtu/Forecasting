@@ -32,11 +32,11 @@ def ReadData(FP):
 def Model():
     scaler = StandardScaler()
     df = pd.read_csv(TF)
-    df = df[["rollingLoad5" , "rollingLoad10" , "prevMonthLoad", "prevYearLoad" ,  "Temperature" ,"Load"]]
+    df = df[["Hour" ,  "Temperature" ,"Load"]]
     df = scaler.fit_transform(df)
 
-    X = df[:,0:5]
-    y = df[:,5]
+    X = df[:,0:2]
+    y = df[:,2]
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
     model = LinearRegression()
     r = model.fit(X_train,y_train)
@@ -50,10 +50,10 @@ def Forecast():
     testdf = pd.read_excel(TESTF)
     traindf = pd.read_excel(TRAINF)
     df = pd.concat([traindf , testdf])
-    testdf[0,:]["rollingLoad5"] = 
+    #testdf[0,:]["rollingLoad5"] =
     for r in testdf.iterrows():
         print(r)
-        r["rollingLoad5"] = df[,].rolling(5).mean()
+        r["rollingLoad5"] = df.rolling(5).mean()
         r["rollingLoad10"] = df["Load"].rolling(10).mean()
 
         r['prevMonthLoad'] = df.groupby('prevmonth')['Load'].transform(np.mean)
@@ -64,8 +64,8 @@ def Forecast():
 
 def Run():
     #ReadData(TRAINF)
-    #Model()
-    Forecast()
+    Model()
+    #Forecast()
 
 
 
